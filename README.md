@@ -531,26 +531,26 @@ What this change does: เพิ่ม drift correction ให้ timer
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                    Development Workflow                      │
+│                    Development Workflow                     │
 │                                                             │
-│  docs/requirements/  →  plans/  →  tasks/backlog/          │
+│  docs/requirements/  →  plans/  →  tasks/backlog/           │
 │  (define what)          (plan how)    (break down)          │
-│                                            │                 │
-│                                            ▼                 │
+│                                            │                │
+│                                            ▼                │
 │                                     tasks/in_progress/      │
 │                                       (pick a task)         │
-│                                            │                 │
-│                                            ▼                 │
+│                                            │                │
+│                                            ▼                │
 │                              prompts/  →  src/ + tests/     │
 │                              (use template)  (write code)   │
-│                                            │                 │
-│                                            ▼                 │
+│                                            │                │
+│                                            ▼                │
 │                              review_prompts/ → merge        │
-│                              (quality gate)                  │
-│                                            │                 │
-│                                            ▼                 │
+│                              (quality gate)                 │
+│                                            │                │
+│                                            ▼                │
 │                              tasks/completed/ + memory/     │
-│                              (close task + capture learning) │
+│                              (close task + capture learning)│
 └─────────────────────────────────────────────────────────────┘
 ```
 
