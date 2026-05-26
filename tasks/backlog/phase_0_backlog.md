@@ -1,10 +1,40 @@
 # Phase 0 Backlog — Project Setup
 
+## TSK-0-000 — Initialize Git repository
+
+**Priority:** High (ทำก่อน TSK-0-001 ทุกอย่าง)
+**Estimate:** 1 Pomodoro  
+**Status:** Backlog
+
+**Description:**  
+Init git repository และสร้าง initial commit ก่อนให้ Claude เริ่มทำงาน เพื่อให้มีจุด rollback เสมอ
+
+```bash
+cd pomodoro-app
+git init
+git add .
+git commit -m "chore: initial project template"
+
+# (optional) เชื่อม remote
+git remote add origin <your-repo-url>
+git push -u origin main
+```
+
+**Acceptance Criteria:**
+- [ ] `git log` แสดง initial commit
+- [ ] `.gitignore` ทำงานถูกต้อง (node_modules ไม่ถูก track)
+
+---
+
 ## TSK-0-001 — Initialize Vite + React + TypeScript project
 
 **Priority:** High  
 **Estimate:** 1 Pomodoro  
 **Status:** Backlog
+**Branch:** `feature/project-setup`
+
+**Git Checklist:**
+- [ ] `git checkout -b feature/project-setup`
 
 **Description:**  
 รัน `npm create vite@latest pomodoro-app -- --template react-ts` และ configure initial settings
@@ -13,6 +43,8 @@
 - [ ] `npm run dev` เปิดได้ที่ localhost:5173
 - [ ] TypeScript strict mode เปิดใน tsconfig.json
 - [ ] ลบ boilerplate files (App.css, assets/react.svg ฯลฯ)
+
+**Rollback Plan:** `git checkout .` แล้วลองใหม่
 
 ---
 

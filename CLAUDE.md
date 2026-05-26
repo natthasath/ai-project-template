@@ -91,10 +91,48 @@ pomodoro-app/
 | Refactor a component | `prompts/refactor_prompts/component_refactor.md` |
 | Security audit | `prompts/review_prompts/security_review.md` |
 
+## Git Workflow with Claude Code
+
+**Claude does NOT branch, commit, or push automatically.** You must do this yourself, or explicitly ask Claude to do it after reviewing changes.
+
+### Before every task (your responsibility)
+
+```bash
+git checkout main && git pull
+git checkout -b feature/<task-name>          # new branch per task
+git add . && git commit -m "chore: checkpoint before <task>"  # safety net
+```
+
+### After Claude finishes
+
+```bash
+git diff                 # review exactly what Claude changed
+npm run lint && npm test # verify nothing broke
+
+# If OK → commit
+git add src/ tests/
+git commit -m "feat(timer): <what was done>"
+
+# If broken → revert everything
+git checkout .           # discard all uncommitted changes
+git clean -fd            # remove new files Claude created
+# or if you have a checkpoint commit:
+git reset --hard HEAD
+```
+
+### Asking Claude to commit
+
+Once you've reviewed changes and they're good:
+> "Commit these changes with message: feat(timer): add drift correction"
+
+Claude will stage relevant files and commit — but will NOT push unless you say so.
+
+See `rules/git_conventions.md` for full revert scenarios and branch naming.
+
 ## Workflow
 
 ```
-Idea → docs/requirements/ → plans/ → tasks/ → prompts/ → src/ → tests/ → tasks/completed/
+Idea → docs/requirements/ → plans/ → tasks/ → git checkout -b → prompts/ → src/ → tests/ → commit → tasks/completed/
 ```
 
-Each stage gates the next. Do not write source code without an entry in `tasks/in_progress/`.
+Each stage gates the next. Do not write source code without an entry in `tasks/in_progress/` **and** a feature branch checked out.

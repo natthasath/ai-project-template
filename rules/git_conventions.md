@@ -1,5 +1,84 @@
 # Git Conventions
 
+## ⚠️ Claude Code ไม่ทำ Git อัตโนมัติ
+
+Claude Code **ไม่** สร้าง branch, commit, หรือ push เองโดยอัตโนมัติ
+ทำได้ก็ต่อเมื่อคุณสั่งเท่านั้น
+
+**ผลที่ตามมา:** ถ้าคุณให้ Claude แก้ไขไฟล์โดยไม่มี commit ก่อนหน้า
+และผลลัพธ์พัง — คุณไม่มีจุดย้อนกลับ
+
+**วิธีป้องกัน:** ดู "Workflow กับ Claude Code" ด้านล่าง
+
+---
+
+## Workflow กับ Claude Code (สำคัญมาก)
+
+### กฎทอง: commit ก่อนให้ Claude ทำงานทุกครั้ง
+
+```
+[คุณ] git checkout -b feature/timer-drift-correction
+[คุณ] git add . && git commit -m "chore: checkpoint before timer refactor"
+[Claude] แก้ไขไฟล์ต่างๆ ตามที่สั่ง
+[คุณ] ตรวจสอบผลลัพธ์
+  ✅ ถ้าโอเค → git add . && git commit -m "feat(timer): add drift correction"
+  ❌ ถ้าพัง → git checkout . (ทิ้งการแก้ไขทั้งหมด กลับไปจุดเดิม)
+```
+
+### ขั้นตอน Step-by-Step ต่อ Task หนึ่งๆ
+
+```bash
+# ขั้นที่ 1: สร้าง branch ใหม่จาก main (ก่อนเริ่มทุกครั้ง)
+git checkout main
+git pull
+git checkout -b feature/ชื่อ-feature
+
+# ขั้นที่ 2: สร้าง checkpoint commit (ก่อนให้ Claude ทำงาน)
+# ถ้ายังไม่มีโค้ดเลย ข้ามขั้นนี้ได้
+git add .
+git commit -m "chore: checkpoint before <ชื่องาน>"
+
+# ขั้นที่ 3: บอก Claude ให้ทำงาน
+# (Claude แก้ไขไฟล์ให้)
+
+# ขั้นที่ 4: ตรวจสอบ
+npm run lint && npm run typecheck && npm test
+
+# ขั้นที่ 5ก: ถ้าโอเค — commit งานจริง
+git add src/ tests/              # เพิ่มเฉพาะไฟล์ที่เกี่ยวข้อง
+git commit -m "feat(timer): add drift-correcting tick mechanism"
+
+# ขั้นที่ 5ข: ถ้าพัง — ย้อนกลับทั้งหมด
+git checkout .                   # ทิ้งการแก้ไขทุกไฟล์ (untracked ยังอยู่)
+git clean -fd                    # ลบไฟล์ใหม่ที่ Claude สร้าง (ระวัง!)
+# หรือถ้า commit checkpoint ไว้แล้ว:
+git reset --hard HEAD            # กลับไป checkpoint เป๊ะๆ
+```
+
+### วิธีย้อนกลับแบบต่างๆ
+
+| สถานการณ์ | คำสั่ง |
+|---|---|
+| ยังไม่ได้ commit อะไรเลย, อยากทิ้งการแก้ไข | `git checkout .` |
+| มี checkpoint commit แล้ว, อยากกลับไปจุดนั้น | `git reset --hard HEAD` |
+| Commit ไปแล้วหลายอัน, อยาก undo commit ล่าสุด | `git revert HEAD` |
+| อยากดูว่า Claude เปลี่ยนอะไรก่อนตัดสินใจ | `git diff` หรือ `git status` |
+| อยาก compare กับ main ว่าต่างกันยังไง | `git diff main...HEAD` |
+
+### การสั่ง Claude ให้ commit ให้
+
+เมื่อตรวจสอบแล้วว่าโอเค คุณสามารถสั่ง Claude ได้:
+
+```
+# ตัวอย่างวิธีสั่ง:
+"commit ไฟล์เหล่านี้ด้วย message ว่า feat(timer): add drift correction"
+"สร้าง commit สำหรับการเปลี่ยนแปลงนี้"
+```
+
+Claude จะ stage เฉพาะไฟล์ที่เกี่ยวข้อง และสร้าง commit ให้ แต่ **ไม่ push** เว้นแต่คุณสั่ง push ด้วย
+
+---
+
 ## Branch Naming
 
 ```

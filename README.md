@@ -19,8 +19,9 @@
    - [โฟลเดอร์ prompts/](#โฟลเดอร์-prompts)
    - [โฟลเดอร์ docs/](#โฟลเดอร์-docs)
 4. [วิธีใช้งาน Template นี้](#วิธีใช้งาน-template-นี้)
-5. [Workflow การพัฒนา](#workflow-การพัฒนา)
-6. [Technology Stack](#technology-stack)
+5. [Git Workflow กับ Claude Code](#git-workflow-กับ-claude-code)
+6. [Workflow การพัฒนา](#workflow-การพัฒนา)
+7. [Technology Stack](#technology-stack)
 
 ---
 
@@ -527,6 +528,41 @@ What this change does: เพิ่ม drift correction ให้ timer
 
 ---
 
+## Git Workflow กับ Claude Code
+
+> ⚠️ **สำคัญมาก** — Claude Code **ไม่ทำ git อัตโนมัติ** (ไม่ branch, ไม่ commit, ไม่ push)
+> ถ้าให้ Claude แก้ไขไฟล์โดยไม่มี commit ก่อน และ code พัง คุณจะไม่มีจุดย้อนกลับ
+
+### กฎทอง: commit ก่อนให้ Claude ทำงานทุกครั้ง
+
+```bash
+# 1. สร้าง branch ใหม่
+git checkout -b feature/ชื่อ-feature
+
+# 2. สร้าง safety checkpoint
+git add . && git commit -m "chore: checkpoint before <ชื่องาน>"
+
+# 3. ให้ Claude ทำงาน
+# 4. ตรวจสอบผลลัพธ์
+git diff && npm test
+
+# ✅ ถ้าโอเค        ❌ ถ้าพัง
+git add src/        git checkout .      # ทิ้งทุกอย่าง
+git commit -m "..." git clean -fd       # ลบไฟล์ใหม่
+```
+
+### วิธีย้อนกลับแบบต่างๆ
+
+| สถานการณ์ | คำสั่ง |
+|---|---|
+| ยังไม่ commit, อยากทิ้งทุกอย่าง | `git checkout . && git clean -fd` |
+| มี checkpoint commit, อยากกลับ | `git reset --hard HEAD` |
+| Commit ไปแล้ว อยาก undo | `git revert HEAD` |
+
+> รายละเอียดและตัวอย่างเต็มๆ: `docs/git_workflow_with_claude.md`
+
+---
+
 ## Workflow การพัฒนา
 
 ```
@@ -540,12 +576,18 @@ What this change does: เพิ่ม drift correction ให้ timer
 │                                     tasks/in_progress/      │
 │                                       (pick a task)         │
 │                                            │                │
-│                                            ▼                │
-│                              prompts/  →  src/ + tests/     │
-│                              (use template)  (write code)   │
+│                          ⚡ git checkout -b feature/xxx      │
+│                          ⚡ git commit "checkpoint"  ← Safety│
 │                                            │                │
 │                                            ▼                │
-│                              review_prompts/ → merge        │
+│                              prompts/  →  src/ + tests/     │
+│                              (use template) (Claude codes)  │
+│                                            │                │
+│                           git diff + npm test               │
+│                           ✅ commit   ❌ git checkout .      │
+│                                            │                │
+│                                            ▼                │
+│                         review_prompts/ → git push → PR    │
 │                              (quality gate)                 │
 │                                            │                │
 │                                            ▼                │

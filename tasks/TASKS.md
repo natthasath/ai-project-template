@@ -29,6 +29,11 @@ _(ดูไฟล์ใน `completed/` สำหรับ tasks ที่เส
 **Estimate:** X Pomodoros  
 **Status:** Backlog / In Progress / Done / Blocked  
 **Blocked by:** (ถ้ามี)
+**Branch:** feature/xxx  ← กรอกก่อนเริ่ม
+
+**Git Checklist (ทำก่อนให้ Claude เขียนโค้ด):**
+- [ ] `git checkout -b feature/xxx`
+- [ ] `git commit -m "chore: checkpoint before TSK-X-XXX"`
 
 **Description:**
 อธิบายสิ่งที่ต้องทำ
@@ -36,6 +41,9 @@ _(ดูไฟล์ใน `completed/` สำหรับ tasks ที่เส
 **Acceptance Criteria:**
 - [ ] criteria 1
 - [ ] criteria 2
+
+**Rollback Plan:** (ถ้า Claude ทำแล้วพัง จะ revert ยังไง?)
+- `git checkout .` — ทิ้งการแก้ไขทั้งหมด
 
 **Notes:**
 หมายเหตุเพิ่มเติม (ถ้ามี)
