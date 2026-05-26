@@ -1,0 +1,64 @@
+{
+  "model": "claude-sonnet-4-6",
+  "theme": "dark",
+  "permissions": {
+    "allow": [
+      "Bash(npm:*)",
+      "Bash(npx:*)",
+      "Bash(node:*)",
+      "Bash(git:*)",
+      "Bash(vite:*)",
+      "Bash(vitest:*)",
+      "Bash(playwright:*)",
+      "Bash(tsc:*)",
+      "Bash(eslint:*)",
+      "Bash(prettier:*)"
+    ],
+    "deny": [
+      "Bash(rm -rf /*)",
+      "Bash(curl:*)",
+      "Bash(wget:*)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo \"[Hook] Running Bash command in Pomodoro project\""
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo \"[Hook] File modified — remember to update tasks/in_progress/ if relevant\""
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo \"[Hook] Session ended — review tasks/in_progress/ for incomplete items\""
+          }
+        ]
+      }
+    ]
+  },
+  "env": {
+    "NODE_ENV": "development",
+    "VITE_APP_NAME": "Pomodoro",
+    "VITE_DEFAULT_WORK_DURATION": "25",
+    "VITE_DEFAULT_SHORT_BREAK": "5",
+    "VITE_DEFAULT_LONG_BREAK": "15"
+  }
+}
