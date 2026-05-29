@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    // เพิ่ม MCP servers ที่ใช้ร่วมกันทั้งทีมที่นี่
+    // ตัวอย่าง:
+    // "filesystem": {
+    //   "command": "npx",
+    //   "args": ["-y", "@modelcontextprotocol/server-filesystem", "."]
+    // }
+  }
+}

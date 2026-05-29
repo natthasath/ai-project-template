@@ -1,0 +1,5 @@
+# .worktreeinclude
+# ไฟล์ที่ถูก gitignore แต่ต้องการให้ copy เข้า worktrees ด้วย
+# (เช่น .env.local, personal settings)
+
+.env.local

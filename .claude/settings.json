@@ -1,12 +1,23 @@
 {
   "model": "claude-sonnet-4-6",
   "theme": "dark",
+
   "permissions": {
     "allow": [
       "Bash(npm:*)",
       "Bash(npx:*)",
       "Bash(node:*)",
-      "Bash(git:*)",
+      "Bash(git status)",
+      "Bash(git diff*)",
+      "Bash(git log*)",
+      "Bash(git add*)",
+      "Bash(git commit*)",
+      "Bash(git checkout*)",
+      "Bash(git branch*)",
+      "Bash(git push*)",
+      "Bash(git pull*)",
+      "Bash(git reset*)",
+      "Bash(git clean*)",
       "Bash(vite:*)",
       "Bash(vitest:*)",
       "Bash(playwright:*)",
@@ -15,11 +26,14 @@
       "Bash(prettier:*)"
     ],
     "deny": [
+      "Bash(git push --force)",
+      "Bash(git push -f)",
       "Bash(rm -rf /*)",
       "Bash(curl:*)",
       "Bash(wget:*)"
     ]
   },
+
   "hooks": {
     "PreToolUse": [
       {
@@ -27,7 +41,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "echo \"[Hook] Running Bash command in Pomodoro project\""
+            "command": "echo \"[Hook:PreBash] About to run a shell command\""
           }
         ]
       }
@@ -38,7 +52,16 @@
         "hooks": [
           {
             "type": "command",
-            "command": "echo \"[Hook] File modified — remember to update tasks/in_progress/ if relevant\""
+            "command": "echo \"[Hook:PostEdit] File changed — update tasks/in_progress/current_sprint.md if this completes a task\""
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo \"[Hook:PostBash] Command finished\""
           }
         ]
       }
@@ -48,12 +71,13 @@
         "hooks": [
           {
             "type": "command",
-            "command": "echo \"[Hook] Session ended — review tasks/in_progress/ for incomplete items\""
+            "command": "echo \"[Hook:Stop] Session ending — check tasks/in_progress/current_sprint.md for incomplete work\""
           }
         ]
       }
     ]
   },
+
   "env": {
     "NODE_ENV": "development",
     "VITE_APP_NAME": "Pomodoro",
