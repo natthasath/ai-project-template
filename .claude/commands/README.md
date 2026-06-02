@@ -104,6 +104,19 @@ Mark task ว่าเสร็จ — อัปเดต sprint, archive ไป
 
 ---
 
+### `/list-task [filter]`
+**ไฟล์:** `list-task.md`
+
+แสดง tasks ที่รอทำทั้งหมด จัดกลุ่มตาม status และ priority พร้อมบอก next task ที่ควรทำ
+
+```
+/list-task           # แสดงทุก tasks
+/list-task high      # filter เฉพาะ High priority
+/list-task timer     # filter tasks ที่มีคำว่า "timer"
+```
+
+---
+
 ### `/today`
 **ไฟล์:** `today.md`
 
