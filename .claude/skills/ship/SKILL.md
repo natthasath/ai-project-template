@@ -6,14 +6,16 @@ tools:
   - Bash
 ---
 
+!`cat .claude/config/tech-stack.md 2>/dev/null`
+
 รัน pre-merge ship checklist สำหรับ branch ปัจจุบัน
 
 Task ID (ถ้ามี): $ARGUMENTS
 
-**Step 1 — Technical checks (รันคำสั่งเหล่านี้):**
-- `npm run typecheck` (tsc --noEmit)
-- `npm run lint`
-- `npm test -- --run`
+**Step 1 — Technical checks (ใช้ commands จาก tech-stack.md ด้านบน):**
+- **typecheck** command
+- **lint** command
+- **test** command
 รายงาน: PASS/FAIL ต่อแต่ละอัน
 
 **Step 2 — Code review:**
@@ -33,5 +35,5 @@ Task ID (ถ้ามี): $ARGUMENTS
 - [ ] Acceptance criteria: verified
 
 **สรุปผล:**
-✅ READY TO MERGE — ให้ git commands สำหรับ merge
+✅ READY TO MERGE — แจ้ง **ถัดไป:** `/push`
 ❌ NOT READY — list สิ่งที่ต้องแก้ก่อน

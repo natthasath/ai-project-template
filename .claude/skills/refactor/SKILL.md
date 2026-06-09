@@ -8,13 +8,15 @@ tools:
   - Bash
 ---
 
+!`cat .claude/config/tech-stack.md 2>/dev/null`
+
 Refactor: $ARGUMENTS
 
 **กฎสำคัญ: Behavior ต้องเหมือนเดิม 100%**
 
 **ขั้นที่ 1 — ทำความเข้าใจก่อน:**
 - อ่านไฟล์ที่จะ refactor ทั้งหมด
-- รัน tests ปัจจุบันให้ผ่านก่อน: `npm test -- --run`
+- รัน **test** command ให้ผ่านก่อน (จาก tech-stack.md ด้านบน)
 - บันทึก test coverage ปัจจุบัน
 
 **ขั้นที่ 2 — วางแผน:**
@@ -27,10 +29,10 @@ Refactor: $ARGUMENTS
 - รัน tests หลังเปลี่ยนแต่ละขั้น
 - ถ้า tests fail ให้หยุดและรายงานทันที
 
-**ขั้นที่ 4 — ตรวจสอบ:**
-- `npm run typecheck`
-- `npm run lint`
-- `npm test -- --run`
+**ขั้นที่ 4 — ตรวจสอบ (ใช้ commands จาก tech-stack.md ด้านบน):**
+- **typecheck** command
+- **lint** command
+- **test** command
 - ตรวจสอบว่า behavior ไม่เปลี่ยน
 
 ### Refactor Patterns สำหรับ Pomodoro App

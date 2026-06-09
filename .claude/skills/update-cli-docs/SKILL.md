@@ -1,5 +1,12 @@
 ---
-argument-hint: [changelog|commands]
+name: update-cli-docs
+description: อัปเดตเอกสาร Claude CLI ใน context/docs/claude-cli.md จาก official docs
+tools:
+  - Read
+  - Write
+  - Edit
+  - Bash
+  - WebFetch
 ---
 
 !`node -e "const { execSync } = require('child_process'); try { const v = execSync('claude --version 2>/dev/null || claude -v 2>/dev/null').toString().trim(); console.log('Claude version: ' + v); } catch { console.log('version unavailable'); }"`

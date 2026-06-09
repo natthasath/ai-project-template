@@ -12,6 +12,7 @@ pomodoro-app/
 │
 ├── CLAUDE.md                    ← Claude อ่านทุก session (project overview, กฎสำคัญ)
 ├── .mcp.json                    ← MCP servers ที่แชร์ทั้งทีม (version control ได้)
+├── .mcp.json.example            ← ตัวอย่าง MCP config สำหรับ copy มาแก้ไข
 ├── .worktreeinclude             ← ไฟล์ gitignored ที่ต้อง copy เข้า worktrees
 ├── .gitignore
 │
@@ -20,12 +21,16 @@ pomodoro-app/
 │   ├── settings.local.json      ← personal overrides (auto-gitignored)
 │   │
 │   ├── rules/                   ← กฎที่ Claude ต้องปฏิบัติตาม
-│   │   ├── coding-standards.md  ← TypeScript, React, Zustand patterns
 │   │   ├── git-conventions.md   ← branch naming, commit messages, workflow
+│   │   ├── architecture.md      ← FSD layer rules, import direction, module boundaries
+│   │   ├── coding-standards.md  ← TypeScript, React, Zustand patterns
 │   │   ├── testing-rules.md     ← Vitest, Playwright, mocking policy
 │   │   ├── security-rules.md    ← input validation, XSS, CSP
 │   │   ├── ui-ux-rules.md       ← design tokens, keyboard shortcuts, a11y
-│   │   └── performance-rules.md ← bundle budget, rendering, IndexedDB
+│   │   ├── performance-rules.md ← bundle budget, rendering, IndexedDB
+│   │   ├── error-handling.md    ← ErrorBoundary, async errors, user-facing messages
+│   │   ├── dependency-rules.md  ← checklist ก่อนเพิ่ม dependency, approved/rejected list
+│   │   └── i18n.md              ← ห้าม hardcode text, locale constants, Thai formatting
 │   │
 │   ├── skills/                  ← Reusable prompt templates (เรียกด้วย /<skill-name>)
 │   │   ├── checkpoint/          ← /checkpoint — git safety commit
@@ -33,25 +38,50 @@ pomodoro-app/
 │   │   ├── ship/                ← /ship — pre-merge checklist
 │   │   ├── build-feature/       ← /build-feature — สร้าง feature ใหม่
 │   │   ├── debug/               ← /debug — วิเคราะห์ bug
-│   │   ├── code-review/         ← /code-review — ตรวจสอบ code
-│   │   └── refactor/            ← /refactor — refactor โดยไม่เปลี่ยน behavior
+│   │   ├── code-review/         ← /code-review — ตรวจสอบ code quality
+│   │   ├── refactor/            ← /refactor — refactor โดยไม่เปลี่ยน behavior
+│   │   ├── implement/           ← /implement — implement task ตาม AC
+│   │   ├── push/                ← /push — commit + push branch ปัจจุบัน
+│   │   ├── today/               ← /today — สรุปงานที่ทำวันนี้
+│   │   └── update-cli-docs/     ← /update-cli-docs — sync เอกสาร Claude CLI
 │   │
-│   ├── commands/                ← Single-file commands legacy (รองรับแต่แนะนำให้ใช้ skills/)
+│   ├── commands/                ← Single-file commands (รองรับแต่แนะนำให้ใช้ skills/)
 │   │   ├── add-task.md          ← /add-task <desc> — เพิ่ม task ใหม่เข้า backlog
+│   │   ├── list-task.md         ← /list-task — แสดง tasks ทั้งหมดที่รอทำ
 │   │   ├── start-task.md        ← /start-task <id> — เริ่มทำงาน task
 │   │   ├── done-task.md         ← /done-task <id> — mark task เสร็จ
-│   │   └── today.md             ← /today — สรุปงานวันนี้
+│   │   ├── set-stack.md         ← /set-stack — ตั้งค่า tech stack ของโปรเจค
+│   │   └── set-style.md         ← /set-style — เปลี่ยน output style ของ Claude
 │   │
 │   ├── agents/                  ← Subagent definitions (ปิดเป็น default)
 │   │   ├── feature-builder.md   ← implement features ที่ซับซ้อน
 │   │   ├── code-reviewer.md     ← second opinion บน code
-│   │   └── qa-tester.md         ← เขียน tests + verify acceptance criteria
+│   │   ├── qa-tester.md         ← เขียน tests + verify acceptance criteria
+│   │   ├── architect.md         ← ออกแบบ implementation approach
+│   │   ├── explorer.md          ← สำรวจ codebase หา files, patterns, dependencies
+│   │   ├── documenter.md        ← เขียน JSDoc, ADR, อัปเดต docs
+│   │   ├── security-auditor.md  ← ตรวจ OWASP Top 10
+│   │   ├── performance-auditor.md ← ตรวจ bundle size, rendering, IndexedDB
+│   │   ├── accessibility-auditor.md ← ตรวจ WCAG 2.1 AA compliance
+│   │   ├── seo-auditor.md       ← ตรวจ SEO สำหรับ React SPA
+│   │   ├── db-migrator.md       ← ออกแบบ IndexedDB schema migration
+│   │   └── changelog-writer.md  ← อ่าน git log แล้วสรุปเป็น changelog
+│   │
+│   ├── agent-memory/            ← Persistent memory สำหรับ subagents
+│   │   └── README.md
+│   │
+│   ├── config/                  ← Project configuration files
+│   │   └── tech-stack.md        ← tech stack ที่เลือกใช้
+│   │
+│   ├── themes/                  ← Claude Code UI themes
+│   │   └── README.md
 │   │
 │   ├── workflows/               ← Dynamic workflow scripts (.js) สร้างโดย Claude
 │   │   └── README.md
 │   │
 │   └── output-styles/           ← ปรับรูปแบบการตอบกลับของ Claude
-│       └── concise-thai.md      ← ตอบสั้น กระชับ ภาษาไทย
+│       ├── concise-thai.md      ← ตอบสั้น กระชับ ภาษาไทย
+│       └── concise-eng.md       ← ตอบสั้น กระชับ ภาษาอังกฤษ
 │
 └── context/                     ← Project management (แยกจาก source code)
     │
@@ -70,7 +100,9 @@ pomodoro-app/
     ├── docs/                    ← เอกสารโปรเจค
     │   ├── requirements/        ← PRD, user stories, acceptance criteria
     │   ├── design/              ← system design, data models, wireframes
-    │   └── decisions/           ← Architecture Decision Records (ADRs)
+    │   ├── decisions/           ← Architecture Decision Records (ADRs)
+    │   ├── claude-cli.md        ← เอกสาร Claude CLI อัปเดตจาก official docs
+    │   └── git_workflow_with_claude.md ← คู่มือ git workflow กับ Claude Code
     │
     └── memory/                  ← AI context สำหรับ sessions ถัดไป
         ├── MEMORY.md            ← index
@@ -128,12 +160,16 @@ paths:
 
 | ไฟล์ | โหลดเมื่อ |
 |---|---|
-| `coding-standards.md` | แก้ไขไฟล์ใน `src/` หรือ `tests/` |
 | `git-conventions.md` | ทุก session |
+| `architecture.md` | แก้ไขไฟล์ใน `src/` |
+| `coding-standards.md` | แก้ไขไฟล์ใน `src/` หรือ `tests/` |
 | `testing-rules.md` | แก้ไขไฟล์ใน `src/` หรือ `tests/` |
 | `security-rules.md` | แก้ไขไฟล์ใน `src/` |
-| `ui-ux-rules.md` | แก้ไขไฟล์ใน `src/components/`, `features/`, `pages/` |
+| `ui-ux-rules.md` | แก้ไขไฟล์ใน `src/components/`, `features/`, `pages/`, `shared/ui/` |
 | `performance-rules.md` | แก้ไขไฟล์ใน `src/` |
+| `error-handling.md` | แก้ไขไฟล์ใน `src/` |
+| `dependency-rules.md` | แก้ไขไฟล์ใน `src/` หรือ `package.json` |
+| `i18n.md` | แก้ไขไฟล์ใน `src/` หรือ `public/locales/` |
 
 ### `.claude/skills/` — Prompt templates ที่เรียกใช้ได้
 
@@ -163,6 +199,10 @@ Prompt content ที่ส่งให้ Claude...
 | debug | `/debug <bug>` | วิเคราะห์หาสาเหตุ bug |
 | code-review | `/code-review [file]` | ตรวจสอบ code quality |
 | refactor | `/refactor <target>` | refactor โดยไม่เปลี่ยน behavior |
+| implement | `/implement <task-id>` | implement task ตาม acceptance criteria |
+| push | `/push` | commit ของที่ค้างแล้ว push ขึ้น remote |
+| today | `/today` | สรุปงานที่ทำวันนี้ |
+| update-cli-docs | `/update-cli-docs` | sync เอกสาร Claude CLI จาก official docs |
 
 ### `.claude/commands/` — Single-file commands (legacy แต่ยังรองรับ)
 
@@ -185,9 +225,11 @@ Prompt content...
 | Command | คำสั่ง | ใช้เมื่อ |
 |---|---|---|
 | add-task | `/add-task <description>` | เพิ่ม task ใหม่เข้า backlog พร้อม ID อัตโนมัติ |
+| list-task | `/list-task` | แสดง tasks ที่รอทำทั้งหมด |
 | start-task | `/start-task <task-id>` | เริ่มทำงาน task ใหม่ |
 | done-task | `/done-task <task-id>` | mark task ว่าเสร็จแล้ว |
-| today | `/today` | สรุปงานที่ทำวันนี้ |
+| set-stack | `/set-stack` | ตั้งค่า tech stack สำหรับโปรเจค |
+| set-style | `/set-style` | เปลี่ยน output style ของ Claude |
 
 > **หมายเหตุ:** `commands/` และ `skills/` ทำงานเหมือนกัน — ถ้าชื่อซ้ำกัน `skills/` จะ override
 > สำหรับ command ใหม่ที่ซับซ้อน แนะนำใช้ `skills/` แทน เพราะ bundle supporting files ได้
@@ -208,10 +250,39 @@ memory: false
 System prompt ของ agent นี้...
 ```
 
+**Agents ที่มีใน template นี้:**
+
+| Agent | ใช้เมื่อ |
+|---|---|
+| `feature-builder` | implement features ที่ซับซ้อนแบบ parallel |
+| `code-reviewer` | second opinion บน implementation |
+| `qa-tester` | เขียน tests + verify acceptance criteria |
+| `architect` | ออกแบบ approach และ trade-offs ก่อน implement |
+| `explorer` | สำรวจ codebase หา files, patterns, dependencies |
+| `documenter` | เขียน JSDoc, ADR, อัปเดต docs |
+| `security-auditor` | ตรวจ OWASP Top 10 |
+| `performance-auditor` | ตรวจ bundle size, rendering, IndexedDB |
+| `accessibility-auditor` | ตรวจ WCAG 2.1 AA compliance |
+| `seo-auditor` | ตรวจ SEO สำหรับ React SPA |
+| `db-migrator` | ออกแบบ IndexedDB schema migration |
+| `changelog-writer` | อ่าน git log แล้วสรุปเป็น changelog |
+
 **⚠️ Default: ปิดอยู่** — ใช้ single-agent mode ปกติก่อน
 เปิดใช้เมื่อ: Phase ≥ 3 + codebase > 20 ไฟล์ + งานต้องการ parallel จริงๆ
 
 **agents/ ต้องอยู่ใน `.claude/agents/`** — ไม่ใช่ที่ root
+
+### `.claude/agent-memory/` — Persistent memory สำหรับ subagents
+
+เก็บ memory ที่ subagents เขียนไว้ระหว่าง session เพื่อให้ agents ครั้งถัดไปมี context
+
+### `.claude/config/` — Project configuration
+
+เก็บ config ที่ใช้ร่วมกันใน project เช่น `tech-stack.md` ที่ `/set-stack` เขียนให้
+
+### `.claude/themes/` — Claude Code UI themes
+
+เก็บ theme ที่กำหนด color scheme ใน Claude Code terminal UI
 
 ### `.claude/workflows/` — Dynamic workflow scripts
 
@@ -221,12 +292,18 @@ System prompt ของ agent นี้...
 ### `.claude/output-styles/` — ปรับรูปแบบการตอบกลับ
 
 `.md` files ที่เพิ่ม section ใน system prompt เพื่อควบคุมวิธี Claude ตอบกลับ
-ตัวอย่าง: `concise-thai.md` — บอกให้ Claude ตอบสั้น กระชับ ภาษาไทย
 
-### `.mcp.json` (root — ไม่ใช่ใน `.claude/`)
+| ไฟล์ | ใช้เมื่อ |
+|---|---|
+| `concise-thai.md` | ตอบสั้น กระชับ ภาษาไทย |
+| `concise-eng.md` | ตอบสั้น กระชับ ภาษาอังกฤษ |
+
+### `.mcp.json` / `.mcp.json.example` (root — ไม่ใช่ใน `.claude/`)
 
 กำหนด MCP servers ที่แชร์ทั้งทีม เก็บใน version control ได้
 แตกต่างจาก `settings.json` ตรงที่ `.mcp.json` เป็นของทีม ส่วน `settings.json` เป็น project config
+
+`.mcp.json.example` คือตัวอย่าง config ที่ทีมสามารถ copy มาแก้ไขเป็น `.mcp.json` ได้ทันที
 
 ### `.worktreeinclude` (root)
 

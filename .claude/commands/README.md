@@ -104,6 +104,19 @@ Mark task ว่าเสร็จ — อัปเดต sprint, archive ไป
 
 ---
 
+### `/implement <task-id>`
+**ไฟล์:** `implement.md`
+
+Implement task ตาม spec — อ่าน Description และ Acceptance Criteria จาก backlog แล้ว implement พร้อม unit tests
+
+```
+/implement TSK-0-003
+```
+
+ต้องรัน `/start-task` และ `/checkpoint` ก่อนเสมอ
+
+---
+
 ### `/list-task [filter]`
 **ไฟล์:** `list-task.md`
 
@@ -138,13 +151,14 @@ Mark task ว่าเสร็จ — อัปเดต sprint, archive ไป
 ## Workflow ปกติ ใช้ Commands ร่วมกัน
 
 ```
-1. /add-task <description>     เพิ่ม task ใหม่เข้า backlog
-2. /start-task <id>            เริ่มทำงาน + สร้าง branch
-3. /checkpoint <id>            (skill) git safety commit
-4. ... เขียน code ...
-5. /done-task <id>             mark เสร็จ + archive
-6. /ship <id>                  (skill) ตรวจก่อน merge
-7. /today                      สรุปท้ายวัน
+1. /list-task                  ดู tasks ที่รอทำ
+2. /add-task <description>     เพิ่ม task ใหม่เข้า backlog (ถ้าต้องการ)
+3. /start-task <id>            เริ่มทำงาน + สร้าง branch
+4. /checkpoint <id>            (skill) git safety commit
+5. /implement <id>        implement ตาม spec + tests
+6. /done-task <id>             mark เสร็จ + archive
+7. /ship <id>                  (skill) ตรวจก่อน merge
+8. /today                      สรุปท้ายวัน
 ```
 
 ---

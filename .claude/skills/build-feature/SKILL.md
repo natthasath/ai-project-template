@@ -10,6 +10,8 @@ tools:
   - Grep
 ---
 
+!`cat .claude/config/tech-stack.md 2>/dev/null`
+
 สร้าง feature ใหม่สำหรับ Pomodoro app: $ARGUMENTS
 
 ก่อนเริ่มเขียน code ทำตามขั้นตอนนี้:
@@ -32,6 +34,6 @@ tools:
 - ปฏิบัติตาม `.claude/rules/coding-standards.md` และ `.claude/rules/testing-rules.md`
 
 **4. ตรวจสอบ:**
-- รัน `npm run typecheck` และ `npm run lint`
+- รัน **typecheck** และ **lint** command (จาก tech-stack.md ด้านบน)
 - ตรวจสอบว่า tests ผ่าน
 - อัปเดต `context/tasks/in_progress/current_sprint.md` ถ้า task เสร็จแล้ว

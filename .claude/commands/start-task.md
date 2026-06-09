@@ -6,7 +6,32 @@ argument-hint: <task-id>
 
 เริ่มทำงาน task: $ARGUMENTS
 
-1. อ่าน `context/tasks/in_progress/current_sprint.md` เพื่อดูว่า task นี้อยู่ใน sprint แล้วหรือยัง
-2. ถ้ายังไม่มี — เพิ่ม task นี้เข้า `context/tasks/in_progress/current_sprint.md` พร้อม status: 🔄 In Progress
-3. แนะนำชื่อ git branch ที่ควรสร้าง เช่น `feature/<task-id>-<short-description>`
-4. แจ้งให้รัน: `git checkout -b <branch-name>` แล้วตาม `/checkpoint <task-id>` ก่อนเริ่มเขียน code
+1. อ่าน `context/tasks/in_progress/current_sprint.md`
+   - ถ้า task `$ARGUMENTS` มี status 🔄 อยู่แล้ว — แจ้ง "Task นี้อยู่ใน sprint แล้ว" แล้วหยุด
+
+2. อ่าน `context/tasks/backlog/phase_0_backlog.md`
+   - ค้นหา section ของ task `$ARGUMENTS`
+   - เปลี่ยน `**Status:** Backlog` เป็น `**Status:** 🔄 In Progress`
+
+3. แก้ `context/tasks/in_progress/current_sprint.md`
+   - เพิ่ม entry ใหม่ใน "Currently Active Tasks":
+     ```
+     ## $ARGUMENTS — <ชื่อ task จาก backlog>
+
+     **Status:** 🔄 In Progress
+     **Started:** YYYY-MM-DD
+     **Estimate:** <จาก backlog>
+
+     **Notes:** -
+
+     ---
+     ```
+   - เพิ่ม row ใน Sprint Log: `| YYYY-MM-DD | $ARGUMENTS | Started | - |`
+
+4. แนะนำชื่อ git branch ที่ควรสร้าง เช่น `feature/<task-id>-<short-description>`
+
+5. แจ้งให้รัน:
+   ```
+   git checkout -b <branch-name>
+   ```
+   แล้วตาม `/checkpoint $ARGUMENTS` ก่อนเริ่มเขียน code

@@ -39,5 +39,6 @@ argument-hint: [high|medium|low|<keyword>]
 กฎการแสดงผล:
 - ข้าม section ที่ไม่มี tasks
 - เรียง Backlog ตาม Priority: High → Medium → Low
+- **ข้าม tasks ที่มี `Status: ✅ Done`** — ไม่แสดงใน list
 - Feature Requests แสดงเฉพาะที่ Phase: Unassigned
 - "Next" คือ High priority task แรกใน backlog ที่ยังไม่มีใครทำ

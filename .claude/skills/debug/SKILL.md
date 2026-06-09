@@ -8,6 +8,8 @@ tools:
   - Edit
 ---
 
+!`cat .claude/config/tech-stack.md 2>/dev/null`
+
 วิเคราะห์และแก้ bug: $ARGUMENTS
 
 **ขั้นที่ 1 — Reproduce ปัญหา:**
@@ -29,7 +31,7 @@ tools:
 **ขั้นที่ 4 — Fix:**
 - แก้เฉพาะ root cause ไม่แก้ครอบคลุมเกินจำเป็น
 - เพิ่ม test ที่ reproduce bug ก่อน fix (ควร fail ก่อน แล้วผ่านหลัง fix)
-- รัน `npm test -- --run` หลังแก้
+- รัน **test** command (จาก tech-stack.md ด้านบน) หลังแก้
 
 **ขั้นที่ 5 — Document:**
 - อธิบายว่าแก้อะไรและทำไม (สำหรับ commit message)
