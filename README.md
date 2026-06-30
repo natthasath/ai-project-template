@@ -210,6 +210,7 @@ Prompt content ที่ส่งให้ Claude...
 | implement | `/implement <task-id>` | implement task ตาม acceptance criteria |
 | push | `/push` | commit ของที่ค้างแล้ว push ขึ้น remote |
 | open-pr | `/open-pr` | เปิด Pull Request จาก feature branch ไปยัง main |
+| check-pr | `/check-pr [pr]` | ตรวจ CI checks, review status, merge conflicts |
 | merge | `/merge` | merge feature branch กลับ main + ลบ branch อัตโนมัติ |
 | today | `/today` | สรุปงานที่ทำวันนี้ |
 | sync-template | `/sync-template [url]` | ดึง `.claude/` เวอร์ชันล่าสุดจาก template repo |
@@ -313,6 +314,7 @@ Prompt content ที่ส่งให้ Claude...
 /ship <id>             pre-merge checklist
 /push                  push feature branch ขึ้น remote
 /open-pr               เปิด Pull Request (ถ้าใช้ PR workflow)
+/check-pr              ตรวจ CI + review status ของ PR
 /merge                 merge กลับ main + ลบ feature branch (local)
 /done-task <id>        mark task เสร็จ + archive
 

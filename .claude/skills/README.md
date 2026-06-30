@@ -44,6 +44,7 @@ Prompt content...
 | `refactor` | `/refactor <target>` | Refactor โดยไม่เปลี่ยน behavior | Read, Edit, Grep, Bash |
 | `merge` | `/merge` | merge feature branch กลับ main + ลบ branch | Bash |
 | `open-pr` | `/open-pr` | เปิด Pull Request จาก feature branch ไปยัง main | Bash |
+| `check-pr` | `/check-pr [pr-number]` | ตรวจ CI checks, review status, merge conflicts | Bash |
 | `sync-template` | `/sync-template [url]` | ดึง .claude/ เวอร์ชันล่าสุดจาก template repo | Bash, Read |
 
 ---
