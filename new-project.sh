@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# ใช้หลัง clone template — reset git history แล้วเตรียมพร้อมสำหรับโปรเจคใหม่
+# Run after cloning the template — resets git history and prepares a clean project
 
 set -e
 
@@ -10,9 +10,9 @@ git add .
 git commit -m "chore: init from template"
 
 echo ""
-echo "✅ Done! เปิด Claude Code แล้วรัน:"
+echo "✅ Done! Open Claude Code and run:"
 echo ""
 echo '   /init "<project-name>" "<brief description>"'
 echo ""
-echo "ตัวอย่าง:"
+echo "Example:"
 echo '   /init "my-app" "E-commerce platform for Thai SMEs"'
