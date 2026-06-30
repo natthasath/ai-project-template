@@ -42,6 +42,7 @@ Prompt content...
 | `debug` | `/debug <bug>` | วิเคราะห์และแก้ bug | Read, Grep, Bash, Edit |
 | `code-review` | `/code-review [file]` | ตรวจสอบ code quality | Read, Grep, Bash |
 | `refactor` | `/refactor <target>` | Refactor โดยไม่เปลี่ยน behavior | Read, Edit, Grep, Bash |
+| `sync-template` | `/sync-template [url]` | ดึง .claude/ เวอร์ชันล่าสุดจาก template repo | Bash, Read |
 
 ---
 
@@ -129,6 +130,28 @@ Root cause analysis 5 ขั้น: reproduce → gather evidence → root cause
 ```
 
 สรุปเป็น ✅ ผ่าน / ⚠️ แนะนำ / ❌ Blocking
+
+---
+
+### `sync-template` — ดึง .claude/ เวอร์ชันล่าสุดจาก template repo
+
+ใช้เมื่อ template repo (`ai-project-template`) มี update แล้วต้องการ sync มายัง project นี้
+
+Workflow 7 ขั้น: เตือน checkpoint → อ่าน URL → clone → diff → confirm → apply → สรุป
+
+**Allowlist** (sync เฉพาะ dirs นี้เท่านั้น):
+- `.claude/rules/`, `.claude/skills/`, `.claude/agents/`, `.claude/commands/`, `.claude/output-styles/`, `.claude/workflows/`, `.claude/themes/`
+
+**ไม่แตะ**: `.claude/config/`, `.claude/settings.json`, `.claude/agent-memory/`
+
+**Template ชนะเสมอ** — files ที่ต่างกันจะถูกเขียนทับ, files ที่ template ลบก็จะถูกลบด้วย
+
+```bash
+/sync-template                                              # ใช้ URL จาก .claude/config/template.md
+/sync-template https://github.com/your-fork/template.git   # override URL ชั่วคราว
+```
+
+URL ที่ใช้เป็น default เก็บไว้ใน `.claude/config/template.md` — แก้ตรงนั้นถ้าใช้ fork
 
 ---
 
