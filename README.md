@@ -42,6 +42,9 @@ pomodoro-app/
 │   │   ├── refactor/            ← /refactor — refactor โดยไม่เปลี่ยน behavior
 │   │   ├── implement/           ← /implement — implement task ตาม AC
 │   │   ├── push/                ← /push — commit + push branch ปัจจุบัน
+│   │   ├── open-pr/             ← /open-pr — เปิด Pull Request ไปยัง main
+│   │   ├── check-pr/            ← /check-pr — ตรวจ CI checks, review status, conflicts
+│   │   ├── merge/               ← /merge — merge feature branch กลับ main + ลบ branch
 │   │   ├── today/               ← /today — สรุปงานที่ทำวันนี้
 │   │   ├── sync-template/       ← /sync-template — ดึง .claude/ เวอร์ชันล่าสุดจาก template repo
 │   │   └── update-cli-docs/     ← /update-cli-docs — sync เอกสาร Claude CLI
@@ -311,11 +314,18 @@ Prompt content ที่ส่งให้ Claude...
 /start-task <id>       เริ่มทำ + สร้าง branch
 /checkpoint <id>       git safety commit ก่อน Claude ทำงาน
 /implement <id>        implement ตาม spec + tests
-/ship <id>             pre-merge checklist
-/push                  push feature branch ขึ้น remote
-/open-pr               เปิด Pull Request (ถ้าใช้ PR workflow)
-/check-pr              ตรวจ CI + review status ของ PR
-/merge                 merge กลับ main + ลบ feature branch (local)
+/ship <id>             pre-merge checklist (typecheck/lint/test/AC)
+
+  ┌─ Local merge path ──────────────────────────┐
+  │  /merge             merge กลับ main + ลบ branch │
+  └─────────────────────────────────────────────┘
+  ┌─ PR path ───────────────────────────────────┐
+  │  /push              push feature branch      │
+  │  /open-pr           เปิด Pull Request        │
+  │  /check-pr          ตรวจ CI + review status  │
+  │  (approve บน GitHub แล้ว merge)              │
+  └─────────────────────────────────────────────┘
+
 /done-task <id>        mark task เสร็จ + archive
 
 ── Phase Transition ────────────────────────────────────────
