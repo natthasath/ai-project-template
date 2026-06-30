@@ -209,6 +209,8 @@ Prompt content ที่ส่งให้ Claude...
 | refactor | `/refactor <target>` | refactor โดยไม่เปลี่ยน behavior |
 | implement | `/implement <task-id>` | implement task ตาม acceptance criteria |
 | push | `/push` | commit ของที่ค้างแล้ว push ขึ้น remote |
+| open-pr | `/open-pr` | เปิด Pull Request จาก feature branch ไปยัง main |
+| merge | `/merge` | merge feature branch กลับ main + ลบ branch อัตโนมัติ |
 | today | `/today` | สรุปงานที่ทำวันนี้ |
 | sync-template | `/sync-template [url]` | ดึง `.claude/` เวอร์ชันล่าสุดจาก template repo |
 | update-cli-docs | `/update-cli-docs` | sync เอกสาร Claude CLI จาก official docs |
@@ -309,7 +311,9 @@ Prompt content ที่ส่งให้ Claude...
 /checkpoint <id>       git safety commit ก่อน Claude ทำงาน
 /implement <id>        implement ตาม spec + tests
 /ship <id>             pre-merge checklist
-/merge                 merge กลับ main + ลบ feature branch
+/push                  push feature branch ขึ้น remote
+/open-pr               เปิด Pull Request (ถ้าใช้ PR workflow)
+/merge                 merge กลับ main + ลบ feature branch (local)
 /done-task <id>        mark task เสร็จ + archive
 
 ── Phase Transition ────────────────────────────────────────
