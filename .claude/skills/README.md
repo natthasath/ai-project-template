@@ -46,6 +46,7 @@ Prompt content...
 | `open-pr` | `/open-pr` | เปิด Pull Request จาก feature branch ไปยัง main | Bash |
 | `check-pr` | `/check-pr [pr-number]` | ตรวจ CI checks, review status, merge conflicts | Bash |
 | `sync-template` | `/sync-template [url]` | ดึง .claude/ เวอร์ชันล่าสุดจาก template repo | Bash, Read |
+| `init` | `/init <name> "desc"` | ตั้งค่า project ใหม่จาก template — ลบ Pomodoro content, reset context/ | Read, Write, Edit, Bash, Glob |
 
 ---
 

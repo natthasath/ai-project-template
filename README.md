@@ -47,6 +47,7 @@ pomodoro-app/
 │   │   ├── merge/               ← /merge — merge feature branch กลับ main + ลบ branch
 │   │   ├── today/               ← /today — สรุปงานที่ทำวันนี้
 │   │   ├── sync-template/       ← /sync-template — ดึง .claude/ เวอร์ชันล่าสุดจาก template repo
+│   │   ├── init/                ← /init — ตั้งค่า project ใหม่จาก template (ลบ Pomodoro content)
 │   │   └── update-cli-docs/     ← /update-cli-docs — sync เอกสาร Claude CLI
 │   │
 │   ├── commands/                ← Single-file commands (รองรับแต่แนะนำให้ใช้ skills/)
@@ -217,6 +218,7 @@ Prompt content ที่ส่งให้ Claude...
 | merge | `/merge` | merge feature branch กลับ main + ลบ branch อัตโนมัติ |
 | today | `/today` | สรุปงานที่ทำวันนี้ |
 | sync-template | `/sync-template [url]` | ดึง `.claude/` เวอร์ชันล่าสุดจาก template repo |
+| init | `/init <name> "desc"` | ตั้งค่า project ใหม่จาก template — ลบ Pomodoro content, reset context/ |
 | update-cli-docs | `/update-cli-docs` | sync เอกสาร Claude CLI จาก official docs |
 
 ### `.claude/commands/` — Single-file commands
@@ -335,8 +337,9 @@ Prompt content ที่ส่งให้ Claude...
 /status                ภาพรวมโปรเจค (phase + sprint + git)
 /today                 สรุปงานวันนี้
 
-── Template Sync (เมื่อ template repo มี update) ────────────
-/sync-template         ดึง .claude/ เวอร์ชันล่าสุดจาก template repo
+── Template ────────────────────────────────────────────────
+/init <name> "desc"    ตั้งค่า project ใหม่จาก template (ทำครั้งเดียวหลัง clone)
+/sync-template         ดึง .claude/ เวอร์ชันล่าสุดจาก template repo (เมื่อมี update)
 ```
 
 **Git safety commands:**
