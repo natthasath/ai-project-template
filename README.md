@@ -353,49 +353,53 @@ git revert HEAD         # undo commit ล่าสุด (ปลอดภัย�
 
 ## เริ่มต้นใช้งาน — ขั้นตอน
 
-### ขั้นที่ 1: ปรับ CLAUDE.md
+### ขั้นที่ 1: Clone และ reset git history
 
-เปิด `CLAUDE.md` แล้วปรับ project overview และ constraints ให้ตรงกับโปรเจคของคุณ
-ต้องกระชับ ไม่เกิน 200 บรรทัด
+```bash
+git clone https://github.com/natthasath/ai-project-template.git my-new-project
+cd my-new-project
+./new-project.sh
+```
 
-### ขั้นที่ 2: ตั้งค่า tech stack
+> `new-project.sh` จะ reset git history ของ template แล้วสร้าง initial commit ใหม่ให้อัตโนมัติ
+
+### ขั้นที่ 2: Init โปรเจคใน Claude Code
+
+เปิด Claude Code แล้วรัน:
+
+```
+/init "my-new-project" "Brief description of what this project does"
+```
+
+skill นี้จะลบ Pomodoro-specific content ทั้งหมด, เขียน `CLAUDE.md` ใหม่, reset `context/` ให้ว่าง และ commit อัตโนมัติ
+
+### ขั้นที่ 3: ตั้งค่า tech stack
 
 ```
 /set-stack react-vite    # หรือ python, go, laravel, node-express
 ```
 
-### ขั้นที่ 3: ตรวจสอบ rules
+### ขั้นที่ 4: เติม CLAUDE.md
 
-ดู `.claude/rules/` — ปรับ coding standards และ test coverage ให้ตรงกับทีม
+เปิด `CLAUDE.md` แล้วเติม Architecture, Constraints, และ Principles ให้ตรงกับโปรเจค
+ต้องกระชับ ไม่เกิน 200 บรรทัด
 
-### ขั้นที่ 4: Init git และ push
+### ขั้นที่ 5: Push ขึ้น remote
 
 ```bash
-git init
-git add .
-git commit -m "chore: init project template"
 git remote add origin <your-repo-url>
 git push -u origin main
 ```
 
-### ขั้นที่ 5: เริ่มงานกับ Claude
+### ขั้นที่ 6: เริ่มงานกับ Claude
 
-```bash
-# ดูภาพรวม phases ที่มี
-/list-phase
-
-# เพิ่ม task แรก
-/add-task initialize Vite + React + TypeScript
-
-# เริ่มทำงาน
-/start-task TSK-0-001
-/checkpoint TSK-0-001
-/implement TSK-0-001
+```
+/add-phase "Phase 1 Setup" 2026-07-15    เพิ่ม phase แรก
+/add-task <description>                   เพิ่ม tasks
+/start-task TSK-0-001                     เริ่มทำงาน
 ```
 
-### ขั้นที่ 6 (เมื่อใช้กับโปรเจคอื่น): Sync template
-
-เมื่อ template repo มี update ให้รันใน project ปลายทาง:
+### ขั้นที่ 7 (อนาคต): Sync เมื่อ template มี update
 
 ```
 /sync-template
