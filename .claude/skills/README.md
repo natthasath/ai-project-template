@@ -42,6 +42,7 @@ Prompt content...
 | `debug` | `/debug <bug>` | วิเคราะห์และแก้ bug | Read, Grep, Bash, Edit |
 | `code-review` | `/code-review [file]` | ตรวจสอบ code quality | Read, Grep, Bash |
 | `refactor` | `/refactor <target>` | Refactor โดยไม่เปลี่ยน behavior | Read, Edit, Grep, Bash |
+| `merge` | `/merge` | merge feature branch กลับ main + ลบ branch | Bash |
 | `sync-template` | `/sync-template [url]` | ดึง .claude/ เวอร์ชันล่าสุดจาก template repo | Bash, Read |
 
 ---
